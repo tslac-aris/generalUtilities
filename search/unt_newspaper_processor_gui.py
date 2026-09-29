@@ -322,9 +322,9 @@ def process(source, target):
     source_pdfs.sort()
     pdf_count = len(source_pdfs)
     for directory in source_tiffs:
-        year = directory.split("\\")[-3][:4]
-        identifier = directory.split("\\")[-3].split("-")[0]
-        source_metadata = f"{directory.replace('01_tif', '')}metadata.untl.xml"
+        year = directory.split("\\")[-4][:4]
+        identifier = directory.split("\\")[-4].split("-")[0]
+        source_metadata = directory.replace('data\\01_tif', '') + "metadata.xml"
         target_directory = f"{target}\\{year}\\{identifier}\\preservation1"
         target_metadata = f"{target_directory}\\{identifier}.metadata"
         if os.path.isfile(source_metadata):
@@ -355,9 +355,9 @@ def process(source, target):
     counter = 0
     window['-STEP-'].update("What we are doing: PDF processing")
     for directory in source_pdfs:
-        year = directory.split("\\")[-3][:4]
-        identifier = directory.split("\\")[-3].split("-")[0]
-        source_metadata = f"{directory.replace('02_pdf', '')}metadata.untl.xml"
+        year = directory.split("\\")[-4][:4]
+        identifier = directory.split("\\")[-4].split("-")[0]
+        source_metadata = directory.replace('data\\02_pdf', '') + "metadata.xml"
         target_directory = f"{target}\\{year}\\{identifier}\\presentation2"
         target_metadata = f"{target_directory}\\{identifier}.metadata"
         presentation3_metadata = f"{target}\\{year}\\{identifier}\\presentation3\\{identifier}.metadata"
@@ -400,6 +400,7 @@ def process(source, target):
             window['-folder_progress-'].update_bar(pdf_counter, pdf_number)
         files_list.sort()
         counter += 1
+        create_directory(pdf_target)
         if not os.path.isfile(pdf_target):
             for my_file in files_list:
                 merger.append(fileobj=open(my_file, 'rb'))
